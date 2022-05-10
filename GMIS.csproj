@@ -6,4 +6,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="user-icon-vector.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="user-icon-vector.jpg" />
+  </ItemGroup>
+
 </Project>

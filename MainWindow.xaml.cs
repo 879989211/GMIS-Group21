@@ -24,5 +24,15 @@ namespace GMIS
         {
             InitializeComponent();
         }
+
+        private void Group_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Class_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
