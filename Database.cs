@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace GMIS
         private const string user = "gmis";
         private const string pass = "gmis";
         private const string server = "alacritas.cis.utas.edu.au";
-
-        private static MySqlConnection conn = null;
+        protected static MySqlConnection mySqlConnection = null;
+        
     }
 }
