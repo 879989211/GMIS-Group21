@@ -10,7 +10,7 @@ namespace GMIS
 
     public class Class
     {
-        public int meeting_id { get; set; }
+        public int class_id { get; set; }
 
         public int group_id { get; set; }
 
