@@ -25,7 +25,7 @@ namespace GMIS
 
         public override string ToString()
         {
-            return meeting_id + "\t" + group_id + "\t" + day + "\t" + start + "\t" + end + "\t" + room;
+            return class_id + "\t" + group_id + "\t" + day + "\t" + start + "\t" + end + "\t" + room;
         }
     }
 
