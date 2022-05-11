@@ -23,9 +23,9 @@ namespace GMIS
         public char room { get; set; }
 
 
-        public override string ToString
+        public override string ToString()
         {
-            return meeting_id + "\t" + group_id + "\t" + day + "\t" + id + "\t" + start + "\t" + end + "\t" + room;
+            return meeting_id + "\t" + group_id + "\t" + day + "\t" + start + "\t" + end + "\t" + room;
         }
     }
 
