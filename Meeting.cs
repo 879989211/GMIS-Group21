@@ -20,7 +20,7 @@ namespace GMIS
 
         public DateTime end { get; set; }
 
-        public char room { get; set; }
+        public string room { get; set; }
 
 
         public override string ToString()
