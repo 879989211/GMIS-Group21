@@ -24,83 +24,94 @@ namespace GMIS
         protected static MySqlConnection mySqlConnection = null;
         
     }
-
-        public void InsertStudent()
-        {
-            sql = "INSERT INTO Student(student_id,given_name,family_name,group_id,title,campus,phone,email,photo,category) Values (@student_id,@given_name,@family_name,@group_id,@title,@campus,@phone,@email,@photo,@category)";
-            cammandQuery = new SqlCommand(sql, GlobaldbConnection());
-           cammandQuery.Parameters.AddWithValue("@student_id", _student_id);
-           cammandQuery.Parameters.AddWithValue("@given_name", _given_name);
-           cammandQuery.Parameters.AddWithValue("@family_name", _family_name);
-           cammandQuery.Parameters.AddWithValue("@group_id", _group_id);
-           cammandQuery.Parameters.AddWithValue("@title", _title);
-           cammandQuery.Parameters.AddWithValue("@campus", _campus);
-           cammandQuery.Parameters.AddWithValue("@phone", _phone);
-           cammandQuery.Parameters.AddWithValue("@email", _email);
-          cammandQuery.Parameters.AddWithValue("@photo", _photo);
-          cammandQuery.Parameters.AddWithValue("@category", _category);
-            ConvertPic(_studentphoto, "@photo");
-           cammandQuery.ExecuteNonQuery();
-        }
- 
-      public void Updatestudent()
-        {
-            sql = "UPDATE student SET student_id=@student_id,given_name=@given_name,family_name=@family_name,group_id=@group_id,title=@title,campus=@campus,phone=@phone,email=@email,photo=@photo,category=@category Where student_id=@student_id";
-           cammandQuery = new SqlCommand(sql, GlobaldbConnection());
-             cammandQuery.Parameters.AddWithValue("@student_id", _student_id);
-           cammandQuery.Parameters.AddWithValue("@given_name", _given_name);
-           cammandQuery.Parameters.AddWithValue("@family_name", _family_name);
-           cammandQuery.Parameters.AddWithValue("@group_id", _group_id);
-           cammandQuery.Parameters.AddWithValue("@title", _title);
-           cammandQuery.Parameters.AddWithValue("@campus", _campus);
-           cammandQuery.Parameters.AddWithValue("@phone", _phone);
-           cammandQuery.Parameters.AddWithValue("@email", _email);
-          cammandQuery.Parameters.AddWithValue("@photo", _photo);
-          cammandQuery.Parameters.AddWithValue("@category", _category);
-            ConvertPic(_studentphoto, "@photo")
-          
-           cammandQuery.ExecuteNonQuery();
-        }
-
-
-     public bool DeleteStudent()
-        {
-            sql = "Delete From Regstudent Where Id='" + _student_id + "'";
-            return ExecuteNonQuery(sql);
-        }
-
-          public void InsertClass()
-        {
-            sql = "INSERT INTO Class(class_id,group_id,day,start,end,room) Values (@class_id,@group_id,@day,@start,@end,@room)";
-            cammandQuery = new SqlCommand(sql, GlobaldbConnection());
-           cammandQuery.Parameters.AddWithValue("@class_id", _class_id);
-           cammandQuery.Parameters.AddWithValue("@group_id", _group_id);
-           cammandQuery.Parameters.AddWithValue("@day", _day);
-           cammandQuery.Parameters.AddWithValue("@start", _start);
-           cammandQuery.Parameters.AddWithValue("@end", _end);
-           cammandQuery.Parameters.AddWithValue("@room", _room);
-           cammandQuery.ExecuteNonQuery();
-        }
     
-      public void UpdateClass()
+    public static List<Student> LoadAll()
+    {
+        List<Student> m = new List<Student>();
+
+        MySqlConnection conn = GetConnection();
+        MySqlDataReader rdr = null;
+
+        try
         {
-            sql = "UPDATE Class SET class_id=@class_id,group_id=@group_id,day=@day,start=@start,end=@end,room=@room Where class_id=@class_id";
-           cammandQuery = new SqlCommand(sql, GlobaldbConnection());
-        
-           cammandQuery.Parameters.AddWithValue("@class_id", _class_id);
-           cammandQuery.Parameters.AddWithValue("@group_id", _group_id);
-           cammandQuery.Parameters.AddWithValue("@day", _day);
-           cammandQuery.Parameters.AddWithValue("@start", _start);
-           cammandQuery.Parameters.AddWithValue("@end", _end);
-           cammandQuery.Parameters.AddWithValue("@room", _room);
-           cammandQuery.ExecuteNonQuery();
-            
-          
+            conn.Open();
+
+            MySqlCommand cmd = new MySqlCommand("select * from Student", conn);
+            rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                //Note that in your assignment you will need to inspect the *type* of the
+                //employee/researcher before deciding which kind of concrete class to create.
+                m.Add(new Student { student_id = rdr.GetInt32(0), group_id = rdr.GetString(1) + " " + rdr.GetString(2) });
+            }
         }
-     public bool DeleteClass()
+        catch (MySqlException e)
         {
-            sql = "Delete From Regclass Where Id='" + _class_id + "'";
-            return ExecuteNonQuery(sql);
+            ReportError("loading staff", e);
         }
+        finally
+        {
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        return staff;
+    }
+
+    
+    public static List<Class> LoadAll()
+    {
+        List<Class> m = new List<Class>();
+
+        MySqlConnection conn = GetConnection();
+        MySqlDataReader rdr = null;
+
+        try
+        {
+            conn.Open();
+
+            MySqlCommand cmd = new MySqlCommand("select * from Class", conn);
+            rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                //Note that in your assignment you will need to inspect the *type* of the
+                //employee/researcher before deciding which kind of concrete class to create.
+                m.Add(new Class { class_id = rdr.GetInt32(0), group_id = rdr.GetString(1) + " " + rdr.GetString(2) });
+            }
+        }
+        catch (MySqlException e)
+        {
+            ReportError("loading staff", e);
+        }
+        finally
+        {
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+        return staff;
+    }
 
 }
+
+
+
+
+      
+
+
+   
