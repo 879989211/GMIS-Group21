@@ -39,32 +39,43 @@ namespace GMIS
             MySqlCommand cmd = new MySqlCommand("select * from Student", conn);
             rdr = cmd.ExecuteReader();
 
-            while (rdr.Read())
-            {
-                //Note that in your assignment you will need to inspect the *type* of the
-                //employee/researcher before deciding which kind of concrete class to create.
-                m.Add(new Student { student_id = rdr.GetInt32(0), group_id = rdr.GetString(1) + " " + rdr.GetString(2) });
+              while (rdr.Read())
+                {
+                  
+                    m.Add(new Student {
+                        student_id = rdr.GetInt32(0), 
+                        given_name = rdr.GetString(1),
+                        family_name = rdr.GetString(2), 
+                        group_id = rdr.GetInt32(3),
+                        title = rdr.GetString(4),
+                        campus=(campus) rdr.GetChar(5),
+                        phone=rdr.GetString(6),
+                        email=rdr.GetString(7),
+                        photo=rdr.GetByte(8),
+                        category= (category) rdr.GetChar(9)
+                    });
+                }
             }
-        }
-        catch (MySqlException e)
-        {
-            ReportError("loading staff", e);
-        }
-        finally
-        {
-            if (rdr != null)
+           
+            finally
             {
-                rdr.Close();
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+                if (conn != null)
+                {
+                    conn.Close();
+                }
             }
-            if (conn != null)
-            {
-                conn.Close();
-            }
-        }
 
-        return staff;
+            return m;
+        }
     }
 
+
+
+       
     
     public static List<Class> LoadAll()
     {
@@ -80,38 +91,37 @@ namespace GMIS
             MySqlCommand cmd = new MySqlCommand("select * from Class", conn);
             rdr = cmd.ExecuteReader();
 
-            while (rdr.Read())
-            {
-                //Note that in your assignment you will need to inspect the *type* of the
-                //employee/researcher before deciding which kind of concrete class to create.
-                m.Add(new Class { class_id = rdr.GetInt32(0), group_id = rdr.GetString(1) + " " + rdr.GetString(2) });
-            }
-        }
-        catch (MySqlException e)
-        {
-            ReportError("loading staff", e);
-        }
-        finally
-        {
-            if (rdr != null)
-            {
-                rdr.Close();
-            }
-            if (conn != null)
-            {
-                conn.Close();
-            }
-        }
 
-        return staff;
+          while (rdr.Read())
+                {
+                  
+                    m.Add(new Class {
+                        class_id = rdr.GetInt32(0), 
+                        group_id = rdr.GetInt32(1),
+                        day = rdr.GetString(2), 
+                        start = rdr.GetDateTime(3),
+                        end = rdr.GetDateTime(4),
+                        room = rdr.GetString(5)
+                    });
+                }
+            }
+           
+            finally
+            {
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+
+            return m;
+        }
     }
 
-}
 
 
-
-
-      
-
-
-   
+         
